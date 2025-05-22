@@ -20,12 +20,16 @@ class DataTransformationConfig:
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config = DataTransformationConfig()
+    def clean_column_names(self, df):
+        """Clean column names by stripping whitespace"""
+        df.columns = df.columns.str.strip()
+        return df
     def get_data_transformation_object(self):
             try:
                 logging.info("Data transformation initiated")
                 # Define the numerical and categorical columns
                 
-                numerical_cols = ['GRE Score', 'TOEFL Score', 'University Rating', 'SOP', 'LOR ', 'CGPA']
+                numerical_cols = ['GRE Score', 'TOEFL Score', 'University Rating', 'SOP', 'LOR', 'CGPA']
                 categorical_cols = ['Research']
                 # Create the preprocessing pipelines for both numeric and categorical data
                 numerical_transformer = Pipeline(steps=[
@@ -53,14 +57,17 @@ class DataTransformation:
             try:
                 train_df = pd.read_csv(train_path)
                 test_df = pd.read_csv(test_path)
+                train_df = self.clean_column_names(train_df)
+                test_df = self.clean_column_names(test_df)
 
                 logging.info("Read train and test data")
                 logging.info("Obtaining preprocessing object")
 
                 preprocessing_obj = self.get_data_transformation_object()
 
-                target_column_name = 'Chance of Admit '
+                target_column_name = 'Chance of Admit'
                 drop_columns = [target_column_name, 'Serial No.']
+                
                 # numerical_cols = ['GRE Score', 'TOEFL Score', 'University Rating', 'SOP', 'LOR ', 'CGPA']
                 # categorical_cols = ['Research']
 

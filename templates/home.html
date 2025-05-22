@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graduate Admission Predictor</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+        }
+
+        .form-container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .submit-btn {
+            background-color: #007bff;
+            color: white;
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.3em;
+            color: #28a745;
+        }
+
+        .error {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Graduate Admission Predictor</h1>
+        <form action="{{ url_for('predict_admission') }}" method="POST">
+            <label for="gre_score">GRE Score</label>
+            <input type="number" name="gre_score" min="260" max="340" required>
+
+            <label for="toefl_score">TOEFL Score</label>
+            <input type="number" name="toefl_score" min="0" max="120" required>
+
+            <label for="university_rating">University Rating (1-5)</label>
+            <select name="university_rating" required>
+                <option value="" disabled selected>Select rating</option>
+                {% for i in range(1, 6) %}
+                    <option value="{{ i }}">{{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="sop">SOP Strength (1.0 to 5.0)</label>
+            <input type="number" step="0.5" name="sop" min="1.0" max="5.0" required>
+
+            <label for="lor">LOR Strength (1.0 to 5.0)</label>
+            <input type="number" step="0.5" name="lor" min="1.0" max="5.0" required>
+
+            <label for="cgpa">CGPA (out of 10)</label>
+            <input type="number" step="0.01" name="cgpa" min="0.0" max="10.0" required>
+
+            <label for="research">Research Experience</label>
+            <select name="research" required>
+                <option value="" disabled selected>Select research experience</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+
+            <button type="submit" class="submit-btn">Predict Admission Chance</button>
+        </form>
+
+        {% if result is defined %}
+            <div class="result">
+                Predicted Chance of Admission: {{ result }}%
+            </div>
+        {% endif %}
+
+        {% if error is defined %}
+            <div class="error">
+                Error: {{ error }}
+            </div>
+        {% endif %}
+        
+    </div>
+</body>
+</html>
