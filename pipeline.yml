@@ -10,7 +10,7 @@ Resources:
     Properties:
       ApplicationName: !Ref ElasticBeanstalkApplication
       EnvironmentName: graduate-admission-env
-      SolutionStackName: "64bit Amazon Linux 2023 v4.0.1 running Python 3.8"
+      SolutionStackName: "64bit Amazon Linux 2 v5.8.2 running Python 3.8"
       OptionSettings:
         - Namespace: aws:elasticbeanstalk:application:environment
           OptionName: FLASK_ENV
