@@ -8,3 +8,5 @@ xgboost==1.7.5
 dill==0.3.7
 seaborn==0.12.2
 gunicorn==20.1.0  # Required for EB production
+setuptools>=42
+wheel
