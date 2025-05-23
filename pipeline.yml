@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  ElasticBeanstalkApplication:
+    Type: AWS::ElasticBeanstalk::Application
+    Properties:
+      ApplicationName: graduate-admission-predictor
+
+  ElasticBeanstalkEnvironment:
+    Type: AWS::ElasticBeanstalk::Environment
+    Properties:
+      ApplicationName: !Ref ElasticBeanstalkApplication
+      EnvironmentName: graduate-admission-env
+      SolutionStackName: "64bit Amazon Linux 2023 v4.0.1 running Python 3.8"
+      OptionSettings:
+        - Namespace: aws:elasticbeanstalk:application:environment
+          OptionName: FLASK_ENV
+          Value: production
